@@ -2,20 +2,14 @@ import csv
 import os
 from datetime import datetime
 
-LOG_FILE = "logs/query_log.csv"
-
-def log_interaction(user_name, topic, weak_topic_flag):
-    os.makedirs("logs", exist_ok=True)
-    write_header = not os.path.exists(LOG_FILE)
-
-    with open(LOG_FILE, mode="a", newline="", encoding="utf-8") as file:
+def log_query(user_name, question, matched_topic, is_weak):
+    log_dir = "logs"
+    os.makedirs(log_dir, exist_ok=True)
+    file_path = os.path.join(log_dir, "query_log.csv")
+    
+    with open(file_path, mode="a", newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
-        if write_header:
-            writer.writerow(["Timestamp", "User", "Topic", "Weak Topic"])
-
-        writer.writerow([
-            datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            user_name,
-            topic,
-            "Yes" if weak_topic_flag else "No"
-        ])
+        if file.tell() == 0:
+            writer.writerow(["Timestamp", "User Name", "Question", "Matched Topic", "Is Weak Topic"])
+        writer.writerow([datetime.now(), user_name, question, matched_topic, is_weak])
+    print(f"Logged query for {user_name}: {question} on topic {matched_topic}. Weak topic: {is_weak}")
