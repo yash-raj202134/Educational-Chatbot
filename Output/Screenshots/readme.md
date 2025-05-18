@@ -21,7 +21,7 @@ This chatbot allows Class 9 students to interactively learn Science concepts fro
 ---
 
 ## 📂 Project Structure
-
+```
 project-root/
 │
 ├── app.py # Main Streamlit app
